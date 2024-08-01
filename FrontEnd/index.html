@@ -15,12 +15,14 @@
   </head>
   <body>
     <header>
+      <span id="edition-banner"></span>
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
         <ul>
           <li>projets</li>
           <li>contact</li>
-          <li>login</li>
+          <li id="logIn">
+            <a href="login.html">login</a></li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
@@ -50,11 +52,10 @@
         </article>
       </section>
       <section id="portfolio">
-        <h2>Mes Projets</h2>
+        <h2>Mes Projets <span id="modify">Modifier</span></h2>
         <nav>
           <ul class="category">
-            <li id="category_0">Tous</li>
-
+            <li data-id="0" class="categoryBtn tout">Tous</li>
           </ul>
         </nav>
         <div class="gallery">
@@ -85,5 +86,4 @@
     </footer>
   </body>
   <script src="script.js" defer></script>
-  <script src="admin_script.js" defer></script>
 </html>

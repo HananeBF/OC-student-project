@@ -1,3 +1,12 @@
+const cat = localStorage.getItem("token")
+console.log(cat)
+if (cat !== null) {
+    document.querySelector("#logIn").textContent="logout"
+    document.querySelector(".category").style.display="none"
+    document.querySelector("#modify").style.display="inline-block"
+    document.querySelector("#edition-banner").style.display="block"
+
+}
 // API categories via fetch
 fetch("http://localhost:5678/api/categories")
     .then(res => res.json())
@@ -7,16 +16,16 @@ fetch("http://localhost:5678/api/categories")
         let display = ``
         for (li of data) {
             display += `
-            <li data-id="${li.id}">${li.name}</li>
+            <li data-id="${li.id}" class="categoryBtn">${li.name}</li>
             `
 
         }
         document.querySelector(".category").insertAdjacentHTML("beforeend", display)
+        startFilterListener()
     })
 
     .catch(err => { console.log(err) }
     )
-
 
 // API works via fetch
 fetch("http://localhost:5678/api/works")
@@ -43,58 +52,37 @@ fetch("http://localhost:5678/api/works")
         console.log(err)
     })
 
-//listener categories buttons
-/*
-1 quand je clique je veux qu'il change de classe ->  addEvenListener click classlist add
-2   s'il n'est pas cliqué je veux qu'il revienne à sa classe initiale  addEvenListener classlist remove
-3   s'il est cliqué, je veux un filtre sur les numéro de catégories -> click event 
-4   si c'est "tous" je veux que toutes les catégories apparaissent
-*/
-//listener categories buttons
-let categoryList = document.querySelector(".category")
-categoryList.addEventListener("click", () => {
-    let currentIndexCategory = 0
-    let categoryArrayLength = categoryList.length
-    let categoryFilter = document.querySelector(".category")
-    for (let i = 0; i < categoryArrayLength; i++) {
-        console.log("categoryArrayLength", i)
-        categoryFilter.insertAdjacentHTML("beforeend", `<div class="category li" id="category_${i}"></div>`)
+const startFilterListener = () => {
+    const categoryFilter = document.querySelectorAll(".categoryBtn")
+
+    console.log(categoryFilter)
+    for (elem of categoryFilter) {
+        console.log(elem)
+        elem.addEventListener("click", (event) => {
+
+            let productAll = document.querySelectorAll(".gallery > figure")
+            //elem.classList.add("category_selected")
+
+            for (item of productAll) {
+                item.classList.remove("gallery_hidden")
+                console.log(elem)
+                
+                
+            }
+
+            if (event.target.dataset.id !== "0") {
+                const productFilter = document.querySelectorAll(".gallery > figure:not([data-categoryId='" + event.target.dataset.id + "'])")
+                console.log(event)
+                console.log(event.target.dataset.id)
+
+                for (item of productFilter) {
+                    item.classList.add("gallery_hidden")
+                    //document.querySelector("tout").classList.remove("category_selected")
+                    
+                }
+            
+            }
+            
+        })
     }
-    //category ajouter fonction si clic filtre des images avec le filtre et add classlist category_selected
-    document.querySelector("#category_0").classList.add("category_selected")
-
-    /*else () => {
-        return   
-    }
-    document.querySelector("#category_0").classList.remove("category_selected")*/
-})
-//category ajouter fonction si clic filtre des images avec le filtre et add classlist category_selected
-
-
-// Add category class click create class
-//document.querySelector("#category").classList.add("nav li")
-
-//import { ajouterWorksImages } from "./works_script.js";
-//import { ajouterCategory } from "./categories_script.js";
-
-
-
-
-
-
-
-//category ajouter fonction si clic filtre des images avec le filtre et add classlist category_selected
-
-/*let currentIndexCategory = 0
-let categoryArrayLength = categoryList.length
-let categoryFilter = document.querySelector(".category")
-for (let i = 0; i < categoryArrayLength; i++) {
-    console.log("categoryArrayLength", i)
-    categoryFilter.insertAdjacentHTML("beforeend", `<div class="category li" id="category_${i}"></div>`)
 }
-document.querySelector("#category_0").classList.add("category_selected")
-
-/*categoryFilter.addEventListener("click", (event) =>{
-    console.log(categoryFilter).textContent
-})
-*/

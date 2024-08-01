@@ -1,13 +1,44 @@
-// les categories sont cachee dans admin
-// il faut remplacer login par logout en nav header
+//     // a refine recuperer aussi le nom de la nouvelle image uploadee via alt par exemple
+//     const imageRecupere = document.querySelector("#nouvelleImage").alt
+//     console.log(imageRecupere)
 
-//empecher rechargement page après upload photo Add dans admin - structure
-/*const form = document.querySelector('form')
-form.addEventListener("submit", (event) =>{
+//
+document.querySelector('form').addEventListener("submit", (event) => {
     event.preventDefault()
     console.log("pas de rechargement de page")
-    // a refine recuperer aussi le nom de la nouvelle image uploadee via alt par exemple
-    const imageRecupere = document.querySelector("#nouvelleImage").alt
-    console.log(imageRecupere)
+    let emailInput = document.querySelector("#email").value
+    console.log(email)
+    let passwordInput = document.querySelector("#password").value
+    console.log(password)
+
+    // POST request using fetch() 
+    fetch("http://localhost:5678/api/users/login", {
+
+        // Adding method type 
+        method: "POST",
+
+        // Adding body or contents to send 
+        body: JSON.stringify({
+            email: emailInput,
+            password: passwordInput,
+        }),
+
+        // Adding headers to the request 
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
     })
-*/
+
+        // Converting to JSON 
+        .then(response => response.json())
+            
+        // Displaying results to console 
+        .then(json => {
+            localStorage.setItem("token", json.token)
+            console.log(json)
+            console.log(json.token)
+            window.location.href = "index.html"
+        })
+
+})
+
