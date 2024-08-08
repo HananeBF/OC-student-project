@@ -383,7 +383,7 @@ footer nav ul {
 	width: 1140px;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.3);
-	top:0;
+	top: 0;
 }
 
 .modal_gestion {
@@ -394,13 +394,65 @@ footer nav ul {
 	width: 50%;
 	height: 50%;
 	border-radius: 10px;
-	justify-content: space-around;
-	position:relative;
+	position: relative;
 }
 
-.modal_gestion span {
+.modal_gestion .croix {
 	position: absolute;
 	top: 20px;
 	right: 20px;
 	cursor: pointer;
+}
+
+.modal_gestion h2 {
+	justify-content: center;
+	display: flex;
+	height: 15%;
+	color:black;
+	font-weight: 400;
+	font-size: 20px;
+	margin-top: 50px;
+	box-shadow:0;
+}
+.modal_gestion .modal_photo {
+	padding-top: 5%;
+	width: 60%;
+	height: 50%;
+	display: grid;
+	grid-template-columns: 20% 20% 20% 20% 20%;
+	grid-template-rows: 33% 33% 33%;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: flex-start;
+	margin-bottom: 10px;
+	box-shadow: 0 2px 0 rgba(128, 128, 128, 0.3);
+}
+
+.modal_photo figure {
+	display: flex;
+	width: 90%;
+	height: 90%;
+	margin: 5px;
+	padding-bottom: 5px;
+}
+
+.fa-trash-can {
+	color: white;
+	background-color: black;
+	width: 3px;
+	height: 3px;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	cursor: pointer;
+}
+
+.modal_container form {
+	display: flex;
+	position: absolute;
+	align-items: flex-start;
+	top: 85%;
+	justify-content: center;
+	cursor: pointer;
+	box-shadow: 0;
 }

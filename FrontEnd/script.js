@@ -1,20 +1,21 @@
 const cat = localStorage.getItem("token")
+const modalGalery = document.querySelector(".modal_photo")
 console.log(cat)
 if (cat !== null) {
     document.querySelector("#logIn").textContent = "logout"
     document.querySelector(".category").style.display = "none"
     document.querySelector("#modify").style.display = "inline-block"
     document.querySelector("#edition-banner").style.display = "inline-block"
+    
 
 
     // ajouter listener sur ajouter une photo qui amène à une autre page
     //Add modal_container when I click on modify
     document.querySelector("#modify").addEventListener("click", () => {
         document.querySelector(".modal_container").style.display = "flex"
-
+        
     })
     document.querySelector(".modal_container").addEventListener("click", (event) => {
-        console.log(event.target.className)
         if (event.target.className == "modal_container")
             document.querySelector(".modal_container").style.display = "none"
     })
@@ -50,6 +51,7 @@ fetch("http://localhost:5678/api/categories")
     )
 
 // API works via fetch
+//creer une constante du fetch ?
 fetch("http://localhost:5678/api/works")
     .then(res => res.json())
     .then(data => {
@@ -108,4 +110,44 @@ const startFilterListener = () => {
 
         })
     }
+    
+    async function displayGaleryModal() {
+        modalGalery.innerHTML =""
+        const galleryPhoto = await fetch("http://localhost:5678/api/works")
+        .then(res => res.json())
+        .then(data => {
+    
+            let display = ``
+    
+            for (let figure of data) {
+    
+                display += `
+    
+                <figure data-categoryId="${figure.categoryId}">
+                    <img src="${figure.imageUrl}" alt="${figure.title}"/>
+                </figure>
+    
+              `
+    
+            }
+            document.querySelector(".modal_photo").insertAdjacentHTML("beforeend", display)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        
+        galleryPhoto.forEach(photo => {
+            const figure = document.createElement("figure")
+            figure.classList.add("modal_photo")
+            const img = document.createElement("img")
+            const spanTrash = document.createElement("span")
+            const trash = document.createElement("i")
+            trash.classList.add("fa-regular", "fa-trash-can")
+            trash.id = photo.categoryId
+            img.src = photo.imageUrl
+            spanTrash.appendChild("trash")
+        })
+        console.log(photo)
+    }
+    displayGaleryModal() 
 }
