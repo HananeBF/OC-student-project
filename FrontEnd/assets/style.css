@@ -148,19 +148,16 @@ body {
 	color: white;
 	width: 100%;
 	height: 59px;
-	top: 0;
-	left: 0;
 	text-align: center;
-	vertical-align: middle;
 	font-size: 19px;
-	padding: 10px;
+	padding-bottom: 10px;
 	margin: 0;
 }
 
 .icon-banner {
 	color: white;
-	width: 30px;
-	height: 30px;
+	width: 10px;
+	height: 10px;
 	margin-right: 20px;
 }
 
@@ -258,6 +255,11 @@ li:hover {
 	font-size: 14px;
 	color: black;
 	padding-left: 30px;
+}
+
+#modify a {
+	text-decoration: none;
+	color: inherit;
 }
 
 .icon-modify {
@@ -364,11 +366,41 @@ input[type="submit"] {
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
 }
 
 #password-forget {
 	text-decoration-line: underline;
 	text-decoration-color: black;
 	text-align: center;
+}
+
+.modal_container {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	width: 1140px;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	top:0;
+}
+
+.modal_gestion {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: white;
+	width: 50%;
+	height: 50%;
+	border-radius: 10px;
+	justify-content: space-around;
+	position:relative;
+}
+
+.modal_gestion span {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	cursor: pointer;
 }

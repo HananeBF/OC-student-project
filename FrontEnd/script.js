@@ -1,13 +1,34 @@
 const cat = localStorage.getItem("token")
 console.log(cat)
 if (cat !== null) {
-    document.querySelector("#logIn").textContent="logout"
-    document.querySelector(".category").style.display="none"
-    document.querySelector("#modify").style.display="inline-block"
-    document.querySelector("#edition-banner").style.display="inline-block"
-    
+    document.querySelector("#logIn").textContent = "logout"
+    document.querySelector(".category").style.display = "none"
+    document.querySelector("#modify").style.display = "inline-block"
+    document.querySelector("#edition-banner").style.display = "inline-block"
 
+
+    // ajouter listener sur ajouter une photo qui amène à une autre page
+    //Add modal_container when I click on modify
+    document.querySelector("#modify").addEventListener("click", () => {
+        document.querySelector(".modal_container").style.display = "flex"
+
+    })
+    document.querySelector(".modal_container").addEventListener("click", (event) => {
+        console.log(event.target.className)
+        if (event.target.className == "modal_container")
+            document.querySelector(".modal_container").style.display = "none"
+    })
+
+    document.querySelector("#croix").addEventListener("click", () => {
+        document.querySelector(".modal_container").style.display = "none"
+    })
+    /*document.querySelector("#addPhoto").addEventListener("click", (event) => {
+
+    })*/
 }
+
+
+
 // API categories via fetch
 fetch("http://localhost:5678/api/categories")
     .then(res => res.json())
@@ -56,34 +77,35 @@ fetch("http://localhost:5678/api/works")
 const startFilterListener = () => {
     const categoryFilter = document.querySelectorAll(".categoryBtn")
 
-    console.log(categoryFilter)
+    //console.log(categoryFilter)
     for (elem of categoryFilter) {
-        console.log(elem)
+        //console.log(elem)
         elem.addEventListener("click", (event) => {
 
             let productAll = document.querySelectorAll(".gallery > figure")
-            //elem.classList.add("category_selected")
 
             for (item of productAll) {
                 item.classList.remove("gallery_hidden")
-                console.log(elem)
-                
-                
+                //console.log(elem)
+                document.querySelector(".tout").classList.add("category_selected")
+
             }
 
             if (event.target.dataset.id !== "0") {
                 const productFilter = document.querySelectorAll(".gallery > figure:not([data-categoryId='" + event.target.dataset.id + "'])")
-                console.log(event)
-                console.log(event.target.dataset.id)
+                //console.log(event)
+                //console.log(event.target.dataset.id)
 
                 for (item of productFilter) {
                     item.classList.add("gallery_hidden")
-                    //document.querySelector("tout").classList.remove("category_selected")
-                    
+                    document.querySelector(".tout").classList.remove("category_selected")
+                    elem.dataset.id.classList.add("category_selected")
                 }
-            
+
+            } else {
+                categoryFilter.classList.remove("category_selected")
             }
-            
+
         })
     }
 }
