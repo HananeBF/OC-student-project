@@ -4,7 +4,7 @@ if (cat !== null) {
     document.querySelector("#logIn").textContent="logout"
     document.querySelector(".category").style.display="none"
     document.querySelector("#modify").style.display="inline-block"
-    document.querySelector("#edition-banner").style.display="block"
+    document.querySelector("#edition-banner").style.display="inline-block"
     
 
 }
