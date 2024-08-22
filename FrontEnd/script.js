@@ -6,14 +6,14 @@ if (cat !== null) {
     document.querySelector(".category").style.display = "none"
     document.querySelector("#modify").style.display = "inline-block"
     document.querySelector("#edition-banner").style.display = "inline-block"
-    
+
 
 
     // ajouter listener sur ajouter une photo qui amène à une autre page
     //Add modal_container when I click on modify
     document.querySelector("#modify").addEventListener("click", () => {
         document.querySelector(".modal_container").style.display = "flex"
-        
+
     })
     document.querySelector(".modal_container").addEventListener("click", (event) => {
         if (event.target.className == "modal_container")
@@ -23,9 +23,9 @@ if (cat !== null) {
     document.querySelector("#croix").addEventListener("click", () => {
         document.querySelector(".modal_container").style.display = "none"
     })
-    /*document.querySelector("#addPhoto").addEventListener("click", (event) => {
 
-    })*/
+
+
 }
 
 
@@ -51,7 +51,6 @@ fetch("http://localhost:5678/api/categories")
     )
 
 // API works via fetch
-//creer une constante du fetch ?
 fetch("http://localhost:5678/api/works")
     .then(res => res.json())
     .then(data => {
@@ -110,44 +109,82 @@ const startFilterListener = () => {
 
         })
     }
-    
-    async function displayGaleryModal() {
-        modalGalery.innerHTML =""
+}
+// add figure on modal for admin version
+async function displayGaleryModal() {
+    try {
+
+
+        document.querySelector(".modal_photo").innerHTML = ""
         const galleryPhoto = await fetch("http://localhost:5678/api/works")
-        .then(res => res.json())
-        .then(data => {
-    
-            let display = ``
-    
-            for (let figure of data) {
-    
-                display += `
-    
-                <figure data-categoryId="${figure.categoryId}">
+        const data = await galleryPhoto.json()
+
+
+        let display = ``
+
+        for (let figure of data) {
+
+            display += `
+                
+                <figure data-categoryId="${figure.categoryId}" >
                     <img src="${figure.imageUrl}" alt="${figure.title}"/>
+                    
+                    <i class="fa-regular fa-trash-can" id="${figure.id}"></i>
+                    
                 </figure>
-    
+
               `
+
+        }
+        document.querySelector(".modal_photo").insertAdjacentHTML("beforeend", display)
+        deleteGaleryModal()
+
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+//add trash can and delete method
+const deleteGaleryModal = async () => {
+    const deletePhoto = document.querySelectorAll(".fa-trash-can")
+    for (elem of deletePhoto) {
+        elem.addEventListener("click", event => {
+            console.log(event.target.id)
+            
+
+        })
     
+    }
+    /*const deletePhoto = await fetch("http://localhost:5678/api/works/")
+        .then(res => res.json())
+        .then(element => {
+            let display = ``
+
+            for (let figure of element) {
+
             }
-            document.querySelector(".modal_photo").insertAdjacentHTML("beforeend", display)
+
+            deleteGaleryModal()
         })
         .catch(err => {
             console.log(err)
         })
-        
-        galleryPhoto.forEach(photo => {
-            const figure = document.createElement("figure")
-            figure.classList.add("modal_photo")
-            const img = document.createElement("img")
-            const spanTrash = document.createElement("span")
-            const trash = document.createElement("i")
-            trash.classList.add("fa-regular", "fa-trash-can")
-            trash.id = photo.categoryId
-            img.src = photo.imageUrl
-            spanTrash.appendChild("trash")
-        })
-        console.log(photo)
-    }
-    displayGaleryModal() 
+
+    let id = trash.id
+    const init = {
+        method: "DELETE"
+    }*/
 }
+
+
+
+
+displayGaleryModal()
+
+
+//add new modal and addFigure
+/*document.querySelector("#addFigure").addEventListener("click", () => {
+        (document.createElement une nouvelle page puis
+        window.location = url (à définir))
+    })*/
