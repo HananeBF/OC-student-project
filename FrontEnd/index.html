@@ -110,6 +110,28 @@
           <form id="addPhoto">
             <input type="submit" value="Ajouter une photo" id="addFigure"/>
           </form>
+        <div class="modal_add_photo">
+          <div id="back_arrow" class="back_arrow"><i class="fa-solid fa-arrow-left"></i></span>
+          <h2>Ajout photo</h2>
+          <div id="croix" class="croix">x</div>
+          <form id="validation">
+            <div class="addFile">
+              <div id="image_preview"><i class="fa-regular fa-image"></i></div>
+              <label for="file">Ajouter photo</label>
+              <p id="format_image">jpg, png : 4Mo max</p>
+              <input type="file" id="file" name="image">
+            </div>
+            <div class="title">
+              <label for="title">Titre</label>
+              <input type="text" id="title" name="title"/>
+            </div>
+            <div class="categorie">
+              <label for="category">Catégorie</label>
+              <input type="text" id="category" name="category"/>
+            </div>
+            <input type="submit" value="Valider" id="validate">
+          </form>
+        </div>
         </div>
       </div>
     </footer>

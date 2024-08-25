@@ -464,3 +464,14 @@ footer nav ul {
 	cursor: pointer;
 	box-shadow: 0;
 }
+
+.modal_add_photo {
+	display: none;
+	padding-top: 5px;
+	width: 60%;
+	height: 50%;
+	justify-content: space-between;
+	align-content: space-between;
+	box-shadow: 0 2px 0 rgba(128, 128, 128, 0.3);
+	padding-bottom: 20px;
+}

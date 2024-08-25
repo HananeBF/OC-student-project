@@ -7,9 +7,6 @@ if (cat !== null) {
     document.querySelector("#modify").style.display = "inline-block"
     document.querySelector("#edition-banner").style.display = "inline-block"
 
-
-
-    // ajouter listener sur ajouter une photo qui amène à une autre page
     //Add modal_container when I click on modify
     document.querySelector("#modify").addEventListener("click", () => {
         document.querySelector(".modal_container").style.display = "flex"
@@ -24,7 +21,13 @@ if (cat !== null) {
         document.querySelector(".modal_container").style.display = "none"
     })
 
+    //add new modal and addFigure
+    document.querySelector("#addFigure").addEventListener("click", (event) => {
+        innerHTML
+        document.querySelector(".modal_add_photo").style.display = "flex"
+        document.querySelector(".modal_gestion").style.display = "none"
 
+    })
 
 }
 
@@ -145,46 +148,44 @@ async function displayGaleryModal() {
     }
 }
 
+displayGaleryModal()
+
 //add trash can and delete method
 const deleteGaleryModal = async () => {
     const deletePhoto = document.querySelectorAll(".fa-trash-can")
     for (elem of deletePhoto) {
-        elem.addEventListener("click", event => {
-            console.log(event.target.id)
-            
+        elem.addEventListener("click", (event) => {
+            //console.log(event.target.id)
 
-        })
-    
-    }
-    /*const deletePhoto = await fetch("http://localhost:5678/api/works/")
-        .then(res => res.json())
-        .then(element => {
-            let display = ``
-
-            for (let figure of element) {
-
+            let idPhoto = event.target.id
+            const deleteJson = {
+                method: "DELETE",
+                headers: { "content-Type": "application.json",
+                           "accept": "*/*",
+                           "Authorization":"Bearer "+ cat
+                 },
             }
+            fetch("http://localhost:5678/api/works/" + idPhoto, deleteJson)
+                .then((res => {
+                    if (!res.ok) {
+                        console.log("delete failed")
+                    }
+                    return res.json()
+                }))
 
-            deleteGaleryModal()
-        })
-        .catch(err => {
-            console.log(err)
+                .then((data) => {
+                    console.log("delete succeed", data)
+                    deleteGaleryModal()
+                    displayGaleryModal()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+
         })
 
-    let id = trash.id
-    const init = {
-        method: "DELETE"
-    }*/
+    }
+
 }
 
-
-
-
-displayGaleryModal()
-
-
-//add new modal and addFigure
-/*document.querySelector("#addFigure").addEventListener("click", () => {
-        (document.createElement une nouvelle page puis
-        window.location = url (à définir))
-    })*/
