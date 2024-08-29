@@ -22,11 +22,21 @@ if (cat !== null) {
     })
 
     //add new modal and addFigure
-    document.querySelector("#addFigure").addEventListener("click", (event) => {
-        innerHTML
-        document.querySelector(".modal_add_photo").style.display = "flex"
-        document.querySelector(".modal_gestion").style.display = "none"
+    document.querySelector("#addPhoto").addEventListener("click", (event) => {
+        event.preventDefault()
+        document.querySelector(".galeriephoto").style.display = "none"
+        document.querySelector(".modal_add_file").style.display = "flex"
+        document.querySelector(".modal_photo").style.display = "none"
+        document.querySelector("#addPhoto").style.display = "none"
 
+    })
+//return to the previous modal
+    document.querySelector("#back_arrow").addEventListener("click", (event) => {
+        event.preventDefault()
+        document.querySelector(".galeriephoto").style.display = "flex"
+        document.querySelector(".modal_add_file").style.display = "none"
+        document.querySelector(".modal_photo").style.display = "flex"
+        document.querySelector("#addPhoto").style.display = "flex"
     })
 
 }
@@ -113,7 +123,7 @@ const startFilterListener = () => {
         })
     }
 }
-// add figure on modal for admin version
+// inject figure on modal for admin version
 async function displayGaleryModal() {
     try {
 
@@ -156,14 +166,16 @@ const deleteGaleryModal = async () => {
     for (elem of deletePhoto) {
         elem.addEventListener("click", (event) => {
             //console.log(event.target.id)
+            event.preventDefault()
 
             let idPhoto = event.target.id
             const deleteJson = {
                 method: "DELETE",
-                headers: { "content-Type": "application.json",
-                           "accept": "*/*",
-                           "Authorization":"Bearer "+ cat
-                 },
+                headers: {
+                    "content-Type": "application.json",
+                    "accept": "*/*",
+                    "Authorization": "Bearer " + cat
+                },
             }
             fetch("http://localhost:5678/api/works/" + idPhoto, deleteJson)
                 .then((res => {
@@ -171,16 +183,16 @@ const deleteGaleryModal = async () => {
                         console.log("delete failed")
                     }
                     return res.json()
+                    event.preventDefault()
                 }))
 
-                .then((data) => {
-                    console.log("delete succeed", data)
+                .then((elem) => {
+                    console.log("delete succeed", elem)
                     deleteGaleryModal()
                     displayGaleryModal()
+                    event.preventDefault()
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+
 
 
         })
@@ -188,4 +200,66 @@ const deleteGaleryModal = async () => {
     }
 
 }
+
+//post image on admin
+
+/*add category on form option category
+document.querySelector(select).addEventListener("click" (event) => {
+    const option = document.querySelectorAll(option)
+})
+fetch("http://localhost:5678/api/categories")
+    .then(res => res.json())
+    .then(data => {
+
+
+        let display = ``
+        for (option of data) {
+            display += `
+            <option data-id="${option.id}" value="category">${option.name}</option>
+            `
+
+        }
+        document.querySelectorAll(option).insertAdjacentHTML("beforeend", display)
+        displayGaleryModal()
+    })
+
+    .catch(err => { console.log(err) }
+    )
+
+/*const postImage = async () => {
+    const addImage = document.querySelectorAll("#validate")
+    for (elem of addImage) {
+        elem.addEventListener("click", (event) =>{
+            event.preventDefault()
+            const addJson = {
+                method: "POST",
+                
+                headers: {
+                    "accept: application/json",
+                    "Content-Type: multipart/form-data",
+                    "image=",
+                    "title=",
+                    "category=",
+                    "Authorization": "Bearer " + cat
+                },
+            }
+            fetch("http://localhost:5678/api/works/" + addJson)
+                .then((res => {
+                    if (!res.ok) {
+                        console.log("add failed")
+                    }
+                    return res.json()
+                    
+                }))
+                .then((data) => {
+                    console.log("add succeed", data)
+                    postImage()
+                    displayGaleryModal()
+                   
+                })
+
+        })
+    }
+}*/
+
 
