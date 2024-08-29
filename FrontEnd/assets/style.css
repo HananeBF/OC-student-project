@@ -397,10 +397,11 @@ footer nav ul {
 .croix {
 	position: absolute;
 	font-size: 24px;
-	top: 20px;
+	top: 2%;
 	right: 20px;
 	cursor: pointer;
 	font-weight: 900;
+	display: inline-flex;
 }
 
 .galeriephoto {
@@ -464,44 +465,46 @@ footer nav ul {
 	box-shadow: 0;
 }
 
-.modal_add_file {
+.modal_container .modal_add_file {
 	display: none;
 	flex-direction: column;
 	align-items: center;
 	background-color: white;
-	width: 50%;
-	height: 50%;
+	border-radius: 10px;
+	position: relative;
+	width: 80%;
+	height: 100%;
 	border-radius: 10px;
 	position: relative;
 }
-.modal_add_file .fa-arrow-left {
-	font-size: 21px;
+
+#back_arrow {
 	position: absolute;
-	top: 20px;
-	
+	font-size: 24px;
+	top: 2%;
+	left: 20px;
 	cursor: pointer;
+	font-weight: 900;
+	display: flex;
 }
 
 .modal_add_file h2 {
-	justify-content: center;
 	display: flex;
-	height: 20%;
 	color: black;
 	font-weight: 400;
-	font-size: 20px;
-	margin-top: 50px;
+	font-size: 24px;
+	padding-top: 26px;
 	box-shadow: 0;
+	justify-content: center;
+	margin-bottom: 10px;
 }
 
 .modal_add_file form {
 	padding-top: 5px;
-	width: 70%;
-	height: 70%;
+	width: 75%;
+	height: 75%;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	align-content: space-between;
-	padding-bottom: 20px;
 }
 
 .modal_add_file .addFile {
@@ -511,52 +514,80 @@ footer nav ul {
 	width: 100%;
 	height: 60%;
 	text-align: center;
+	margin: auto;
 }
 
 .addFile .fa-image {
 	color: #B9C5CC;
-	font-size: 76px;
-	padding: 5px;
+	font-size: 60px;
+	padding-top: 10px;
 	display: flex;
-	text-align: center;
 	justify-content: center;
-	
 }
 
 #ajouter_photo {
-	color: #306685;
 	display: flex;
 	border-radius: 50px;
 	background-color: #CBD6DC;
 	font-weight: 500;
 	font-size: 14px;
-	text-align: center;
 	justify-content: center;
-
+	width: 50%;
+	cursor: pointer;
+	color: #306685;
+	margin: auto;
+	padding: 10px;
 }
 
 .format-image {
+	display: flex;
+	justify-content: center;
 	font-size: 10px;
-
+	padding-top: 3px;
+	padding-bottom: 5px;
 }
+
 .addFile input {
 	display: none;
 }
 
-
-
-.modal_add_file select {
+.largeInput {
+	margin-top: 5px;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+	border: white;
 	display: flex;
-	padding: 2px 5px;
+	width: 100%;
+	height: 40px;
+	margin-bottom: 10px;
+	background-color: white;
+}
+
+.title,
+.categorie {
+	margin-top: 5px;
+	font-size: 14px;
+}
+
+.border-form {
+	display: flex;
+	margin-top: 20px;
+	width: 100%;
+	border: 1px solid #B3B3B3;
 }
 
 button[type="submit"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
-	background-color: #1D6154;
-	margin: 2em auto;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px;
+	background-color: grey;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	width: 60%;
+	justify-content: center;
+	border-radius: 50px;
+	height: 36px;
+	padding: 10px;
+	display: flex;
+
 }

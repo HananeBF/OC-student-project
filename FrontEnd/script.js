@@ -224,22 +224,21 @@ fetch("http://localhost:5678/api/categories")
     })
 
     .catch(err => { console.log(err) }
-    )
+    )*/
 
 /*const postImage = async () => {
     const addImage = document.querySelectorAll("#validate")
     for (elem of addImage) {
-        elem.addEventListener("click", (event) =>{
+        elem.addEventListener("click", (event) => {
             event.preventDefault()
             const addJson = {
                 method: "POST",
-                
                 headers: {
                     "accept: application/json",
                     "Content-Type: multipart/form-data",
-                    "image=",
-                    "title=",
-                    "category=",
+                    'image=',
+                    'title=',
+                    'category=',
                     "Authorization": "Bearer " + cat
                 },
             }
