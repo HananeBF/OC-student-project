@@ -30,7 +30,8 @@ if (cat !== null) {
         document.querySelector("#addPhoto").style.display = "none"
 
     })
-//return to the previous modal
+
+    //return to the previous modal
     document.querySelector("#back_arrow").addEventListener("click", (event) => {
         event.preventDefault()
         document.querySelector(".galeriephoto").style.display = "flex"
@@ -91,16 +92,13 @@ fetch("http://localhost:5678/api/works")
 const startFilterListener = () => {
     const categoryFilter = document.querySelectorAll(".categoryBtn")
 
-    //console.log(categoryFilter)
     for (elem of categoryFilter) {
-        //console.log(elem)
         elem.addEventListener("click", (event) => {
-
             let productAll = document.querySelectorAll(".gallery > figure")
 
             for (item of productAll) {
                 item.classList.remove("gallery_hidden")
-                //console.log(elem)
+                
                 document.querySelector(".tout").classList.add("category_selected")
 
             }
@@ -126,7 +124,6 @@ const startFilterListener = () => {
 // inject figure on modal for admin version
 async function displayGaleryModal() {
     try {
-
 
         document.querySelector(".modal_photo").innerHTML = ""
         const galleryPhoto = await fetch("http://localhost:5678/api/works")
@@ -200,13 +197,23 @@ const deleteGaleryModal = async () => {
     }
 
 }
-
-//post image on admin
-
-/*add category on form option category
-document.querySelector(select).addEventListener("click" (event) => {
-    const option = document.querySelectorAll(option)
+// preview img on addFile and initialize 
+let previewFile = document.querySelector("#apercu")
+let addPreviewFile = document.querySelector(".addFile input")
+let labelPreviewFile = document.querySelector(".addFile label")
+addPreviewFile.addEventListener("change", (event) => {
+    console.log(event)
+    console.log(previewFile)
+    previewFile.style.display = "flex"
+    previewFile.src = URL.createObjectURL(event.target.files[0])
+    //document.querySelector(".fa-image").style.display = "none"
+    //document.querySelector(".format-image").style.display = "none"
 })
+
+
+
+//add category on form option category
+
 fetch("http://localhost:5678/api/categories")
     .then(res => res.json())
     .then(data => {
@@ -215,50 +222,44 @@ fetch("http://localhost:5678/api/categories")
         let display = ``
         for (option of data) {
             display += `
-            <option data-id="${option.id}" value="category">${option.name}</option>
+            <option value="${option.id}">${option.name}</option>
             `
 
         }
-        document.querySelectorAll(option).insertAdjacentHTML("beforeend", display)
-        displayGaleryModal()
+        document.querySelector("#category").insertAdjacentHTML("beforeend", display)
+        
+        postImage()
+    })
+    .catch(err => { console.log(err) }
+    )
+
+
+
+const postImage = async () => {
+    const addImage = document.querySelectorAll("#validate")
+    document.querySelector("#validation").addEventListener("submit", (event) => {
+        event.preventDefault()
+        let data = new FormData()
+        data.append('image', document.querySelector("#file").files[0])
+        data.append('title', document.querySelector("#title").value)
+        data.append('category', 1)   
+        const addJson = {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + cat
+            },
+            body: data
+        }
+        fetch("http://localhost:5678/api/works/", addJson)
+            .then(blob => blob.json())
+            .then(data =>{
+                console.log(data)
+            })
+            .catch(err =>{
+                console.log(err)
+            })
     })
 
-    .catch(err => { console.log(err) }
-    )*/
-
-/*const postImage = async () => {
-    const addImage = document.querySelectorAll("#validate")
-    for (elem of addImage) {
-        elem.addEventListener("click", (event) => {
-            event.preventDefault()
-            const addJson = {
-                method: "POST",
-                headers: {
-                    "accept: application/json",
-                    "Content-Type: multipart/form-data",
-                    'image=',
-                    'title=',
-                    'category=',
-                    "Authorization": "Bearer " + cat
-                },
-            }
-            fetch("http://localhost:5678/api/works/" + addJson)
-                .then((res => {
-                    if (!res.ok) {
-                        console.log("add failed")
-                    }
-                    return res.json()
-                    
-                }))
-                .then((data) => {
-                    console.log("add succeed", data)
-                    postImage()
-                    displayGaleryModal()
-                   
-                })
-
-        })
-    }
-}*/
+}
 
 

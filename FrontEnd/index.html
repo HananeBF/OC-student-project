@@ -102,25 +102,24 @@
       <!--add photo admin modal-->
       <div class="modal_container">
         <div class="modal_gestion">
-         
           <div id="croix" class="croix">x</div>
           <h2 class="galeriephoto">Galerie photo</h2>
           <div class="modal_photo">
             <!--Script inject photos-->
           </div>
           <form id="addPhoto">
-            <input type="submit" value="Ajouter une photo" id="addFigure"/>
+            <button  id="addFigure">Ajouter une photo</button>
           </form>
         <div class="modal_add_file">
           <div id="back_arrow" class="back_arrow"><i class="fa-solid fa-arrow-left"></i></div>
           <h2>Ajout photo</h2>
-
           <form id="validation">
             <div class="addFile">
               <i class="fa-regular fa-image"></i>
               <label for="file" id="ajouter_photo">+ Ajouter photo</label>
-              <p id="format_image" class="format-image">jpg, png : 4Mo max</p>
+              <p id="format_image" class="format-image">jpg, png : 4mo max</p>
               <input type="file" id="file" name="image">
+              <img src="" alt="Aperçu image ajoutée" id="apercu">
             </div>
             <div class="title">
               <label for="title">Titre</label>
@@ -130,12 +129,12 @@
             <div class="categorie" class="largeInput">
               <label for="category">Catégorie</label>
             </br>
-              <select name="category" id="category" class="largeInput">
-                <option value="category"></option>
+              <select  id="category" class="largeInput">
+                <option value=""></option>
               </select>
             </div>
             <div class="border-form"></div>
-            <button type="submit" value="Valider" id="validate">Valider</button>
+            <button type="submit" id="validate">Valider</button>
           </form>
         </div>
         </div>

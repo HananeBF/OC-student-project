@@ -415,7 +415,7 @@ footer nav ul {
 	box-shadow: 0;
 }
 
-.modal_gestion .modal_photo {
+.modal_photo {
 	padding-top: 5px;
 	width: 60%;
 	height: 50%;
@@ -465,7 +465,23 @@ footer nav ul {
 	box-shadow: 0;
 }
 
-.modal_container .modal_add_file {
+#addFigure {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	justify-content: center;
+	border-radius: 50px;
+	padding: 1em;;
+	display: flex;
+	border-style: none;
+	width: 100%;
+}
+
+.modal_add_file {
 	display: none;
 	flex-direction: column;
 	align-items: center;
@@ -475,14 +491,14 @@ footer nav ul {
 	width: 80%;
 	height: 100%;
 	border-radius: 10px;
-	position: relative;
+	gap: 5px;
 }
 
 #back_arrow {
 	position: absolute;
 	font-size: 24px;
 	top: 2%;
-	left: 20px;
+	left: -25px;
 	cursor: pointer;
 	font-weight: 900;
 	display: flex;
@@ -501,11 +517,14 @@ footer nav ul {
 
 .modal_add_file form {
 	padding-top: 5px;
-	width: 75%;
-	height: 75%;
+	width: 80%;
+	height: 70%;
 	display: flex;
 	flex-direction: column;
+	gap: 10px;
 }
+
+
 
 .modal_add_file .addFile {
 	background-color: #E8F1F6;
@@ -515,6 +534,14 @@ footer nav ul {
 	height: 60%;
 	text-align: center;
 	margin: auto;
+	position: relative;
+}
+
+.addFile #apercu {
+	display: none;
+	position: absolute;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 .addFile .fa-image {
@@ -523,6 +550,7 @@ footer nav ul {
 	padding-top: 10px;
 	display: flex;
 	justify-content: center;
+	
 }
 
 #ajouter_photo {
@@ -549,6 +577,7 @@ footer nav ul {
 
 .addFile input {
 	display: none;
+	max-width: 50%;
 }
 
 .largeInput {
@@ -558,7 +587,7 @@ footer nav ul {
 	display: flex;
 	width: 100%;
 	height: 40px;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 	background-color: white;
 }
 
@@ -570,12 +599,12 @@ footer nav ul {
 
 .border-form {
 	display: flex;
-	margin-top: 20px;
+	margin-top: 10px;
 	width: 100%;
-	border: 1px solid #B3B3B3;
+	border: 0.1px solid #B3B3B3;
 }
 
-button[type="submit"] {
+#validate {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -589,5 +618,5 @@ button[type="submit"] {
 	height: 36px;
 	padding: 10px;
 	display: flex;
-
+	border-color: none;
 }
