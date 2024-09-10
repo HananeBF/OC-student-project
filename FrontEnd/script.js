@@ -171,7 +171,7 @@ const deleteGaleryModal = async () => {
                 headers: {
                     "content-Type": "application.json",
                     "accept": "*/*",
-                    "Authorization": "Bearer " + cat
+                    "Authorization": "Bearer: " + cat
                 },
             }
             fetch("http://localhost:5678/api/works/" + idPhoto, deleteJson)
@@ -179,7 +179,6 @@ const deleteGaleryModal = async () => {
                     if (!res.ok) {
                         console.log("delete failed")
                     }
-                    return res.json()
                     event.preventDefault()
                 }))
 
@@ -242,7 +241,7 @@ const postImage = async () => {
         let data = new FormData()
         data.append('image', document.querySelector("#file").files[0])
         data.append('title', document.querySelector("#title").value)
-        data.append('category', 1)   
+        data.append('category', document.querySelector("#category").value)   
         const addJson = {
             method: "POST",
             headers: {
@@ -254,6 +253,10 @@ const postImage = async () => {
             .then(blob => blob.json())
             .then(data =>{
                 console.log(data)
+                document.querySelector("#apercu").setAttribute("src","")
+                document.querySelector("#apercu").style.display = "none"
+                document.querySelector("#title").value=''
+                document.querySelector("#category").value=''
             })
             .catch(err =>{
                 console.log(err)
