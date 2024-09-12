@@ -98,7 +98,7 @@ const startFilterListener = () => {
 
             for (item of productAll) {
                 item.classList.remove("gallery_hidden")
-                
+
                 document.querySelector(".tout").classList.add("category_selected")
 
             }
@@ -162,7 +162,6 @@ const deleteGaleryModal = async () => {
     const deletePhoto = document.querySelectorAll(".fa-trash-can")
     for (elem of deletePhoto) {
         elem.addEventListener("click", (event) => {
-            //console.log(event.target.id)
             event.preventDefault()
 
             let idPhoto = event.target.id
@@ -186,7 +185,7 @@ const deleteGaleryModal = async () => {
                     console.log("delete succeed", elem)
                     deleteGaleryModal()
                     displayGaleryModal()
-                    event.preventDefault()
+
                 })
 
 
@@ -205,8 +204,6 @@ addPreviewFile.addEventListener("change", (event) => {
     console.log(previewFile)
     previewFile.style.display = "flex"
     previewFile.src = URL.createObjectURL(event.target.files[0])
-    //document.querySelector(".fa-image").style.display = "none"
-    //document.querySelector(".format-image").style.display = "none"
 })
 
 
@@ -226,8 +223,9 @@ fetch("http://localhost:5678/api/categories")
 
         }
         document.querySelector("#category").insertAdjacentHTML("beforeend", display)
-        
+
         postImage()
+
     })
     .catch(err => { console.log(err) }
     )
@@ -241,7 +239,7 @@ const postImage = async () => {
         let data = new FormData()
         data.append('image', document.querySelector("#file").files[0])
         data.append('title', document.querySelector("#title").value)
-        data.append('category', document.querySelector("#category").value)   
+        data.append('category', document.querySelector("#category").value)
         const addJson = {
             method: "POST",
             headers: {
@@ -251,12 +249,21 @@ const postImage = async () => {
         }
         fetch("http://localhost:5678/api/works/", addJson)
             .then(blob => blob.json())
-            .then(data =>{
+            .then(data => {
                 console.log(data)
-                document.querySelector("#apercu").setAttribute("src","")
+                document.querySelector("#apercu").setAttribute("src", "")
                 document.querySelector("#apercu").style.display = "none"
-                document.querySelector("#title").value=''
-                document.querySelector("#category").value=''
+                document.querySelector("#title").value = ''
+                document.querySelector("#category").value = ''
+                deleteGaleryModal()
+                displayGaleryModal()
+                
+                let display =
+                    ` <figure data-categoryId="${data.categoryId}">
+                        <img src="${data.imageUrl}" alt="${data.title}"/>
+                        <figcaption>${data.title}</figcaption>
+                    </figure> `
+                document.querySelector(".gallery").insertAdjacentHTML("beforeend", display)
             })
             .catch(err =>{
                 console.log(err)

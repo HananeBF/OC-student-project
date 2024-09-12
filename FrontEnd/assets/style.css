@@ -540,7 +540,7 @@ footer nav ul {
 .addFile #apercu {
 	display: none;
 	position: absolute;
-	max-width: 100%;
+	z-index:1;
 	max-height: 100%;
 }
 
@@ -550,10 +550,11 @@ footer nav ul {
 	padding-top: 10px;
 	display: flex;
 	justify-content: center;
+	z-index:2;
 	
 }
 
-#ajouter_photo {
+.addFile #ajouter_photo {
 	display: flex;
 	border-radius: 50px;
 	background-color: #CBD6DC;
@@ -567,17 +568,19 @@ footer nav ul {
 	padding: 10px;
 }
 
-.format-image {
+.addFile .format-image {
 	display: flex;
 	justify-content: center;
 	font-size: 10px;
 	padding-top: 3px;
 	padding-bottom: 5px;
+	z-index:3;
 }
 
 .addFile input {
 	display: none;
 	max-width: 50%;
+	
 }
 
 .largeInput {
@@ -620,3 +623,4 @@ footer nav ul {
 	display: flex;
 	border-color: none;
 }
+
