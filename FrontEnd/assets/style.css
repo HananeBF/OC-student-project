@@ -140,8 +140,12 @@ body {
 	margin: auto;
 	font-family: 'Work Sans';
 	font-size: 14px;
+	
 }
 
+main {
+	width: 100%;
+}
 #edition-banner {
 	display: none;
 	background-color: black;
@@ -248,6 +252,10 @@ li:hover {
 	margin-bottom: 1em;
 }
 
+.error{
+	color: red;
+	font-size: 26px;
+}
 #modify {
 	display: none;
 	cursor: pointer;
@@ -384,7 +392,7 @@ footer nav ul {
 }
 
 .modal_gestion {
-	display: flex;
+	display: none;
 	flex-direction: column;
 	align-items: center;
 	background-color: white;
@@ -397,7 +405,7 @@ footer nav ul {
 .croix {
 	position: absolute;
 	font-size: 24px;
-	top: 2%;
+	top: 20px;
 	right: 20px;
 	cursor: pointer;
 	font-weight: 900;
@@ -426,6 +434,7 @@ footer nav ul {
 	align-content: space-between;
 	box-shadow: 0 2px 0 rgba(128, 128, 128, 0.3);
 	padding-bottom: 20px;
+	box-sizing: content-box;
 }
 
 .modal_photo figure {
@@ -455,7 +464,7 @@ footer nav ul {
 	padding: 2px;
 }
 
-.modal_container .addPhoto {
+.modal_gestion .addPhoto {
 	display: flex;
 	position: absolute;
 	align-items: flex-start;
@@ -488,17 +497,18 @@ footer nav ul {
 	background-color: white;
 	border-radius: 10px;
 	position: relative;
-	width: 80%;
-	height: 100%;
+	width: 50%;
+	height: 50%;
 	border-radius: 10px;
 	gap: 5px;
+	box-sizing: border-box;
 }
 
 #back_arrow {
 	position: absolute;
 	font-size: 24px;
-	top: 2%;
-	left: -25px;
+	top: 20px;
+	left: 20px;
 	cursor: pointer;
 	font-weight: 900;
 	display: flex;
@@ -507,51 +517,56 @@ footer nav ul {
 .modal_add_file h2 {
 	display: flex;
 	color: black;
-	font-weight: 400;
-	font-size: 24px;
-	padding-top: 26px;
+	font-weight: 300;
+	font-size: 20px;
+	padding-top: 40px;
 	box-shadow: 0;
 	justify-content: center;
 	margin-bottom: 10px;
+	box-sizing: border-box;
 }
 
-.modal_add_file form {
+.modal_add_file #validation {
 	padding-top: 5px;
-	width: 80%;
-	height: 70%;
+	width: 60%;
+	height: 80%;
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 5px;
+	position: relative;
+	box-sizing: border-box;
+	overflow: hidden;
 }
-
-
 
 .modal_add_file .addFile {
 	background-color: #E8F1F6;
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	height: 60%;
-	text-align: center;
-	margin: auto;
+	height: 30%;
+	justify-content: center;
 	position: relative;
+	text-align: center;
+	box-sizing: border-box;
+	padding: 5px;
 }
 
 .addFile #apercu {
 	display: none;
 	position: absolute;
-	z-index:1;
-	max-height: 100%;
+	max-width: 100%;
+	height: 100%;
+	align-self: center;
+	justify-content: center;
+	
 }
 
 .addFile .fa-image {
 	color: #B9C5CC;
-	font-size: 60px;
+	font-size: 50px;
 	padding-top: 10px;
 	display: flex;
-	justify-content: center;
-	z-index:2;
-	
+	justify-content: center;	
 }
 
 .addFile #ajouter_photo {
@@ -561,20 +576,21 @@ footer nav ul {
 	font-weight: 500;
 	font-size: 14px;
 	justify-content: center;
-	width: 50%;
+	width: 40%;
 	cursor: pointer;
 	color: #306685;
 	margin: auto;
+	margin-top: 5px;
 	padding: 10px;
+
 }
 
 .addFile .format-image {
 	display: flex;
 	justify-content: center;
-	font-size: 10px;
-	padding-top: 3px;
-	padding-bottom: 5px;
-	z-index:3;
+	font-size: 8px;
+	padding-top: 10px;
+	padding-bottom: 15px;
 }
 
 .addFile input {
@@ -585,11 +601,12 @@ footer nav ul {
 
 .largeInput {
 	margin-top: 5px;
-	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+	box-shadow: 0px 4px 14px 0px #00000017;
 	border: white;
+	left: 2px;
 	display: flex;
-	width: 100%;
-	height: 40px;
+	width: 98%;
+	height: 3em;
 	margin-bottom: 5px;
 	background-color: white;
 }
@@ -607,7 +624,7 @@ footer nav ul {
 	border: 0.1px solid #B3B3B3;
 }
 
-#validate {
+.form-empty {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -621,6 +638,26 @@ footer nav ul {
 	height: 36px;
 	padding: 10px;
 	display: flex;
-	border-color: none;
+	border: none;
 }
 
+.validate-picture {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	width: 60%;
+	justify-content: center;
+	border-radius: 50px;
+	height: 36px;
+	padding: 10px;
+	display: flex;
+	border: none;
+}
+
+footer {
+	width: 1140px;
+}
