@@ -1,8 +1,9 @@
 const cat = localStorage.getItem("token")
 const modalGalery = document.querySelector(".modal_photo")
-console.log(cat)
+
 if (cat !== null) {
     document.querySelector("#logIn").textContent = "logout"
+    document.querySelector("#logIn").classList.add("logout")
     document.querySelector(".category").style.display = "none"
     document.querySelector("#modify").style.display = "inline-block"
     document.querySelector("#edition-banner").style.display = "inline-block"
@@ -10,8 +11,11 @@ if (cat !== null) {
     //Add modal_container when I click on modify
     document.querySelector("#modify").addEventListener("click", () => {
         document.querySelector(".modal_container").style.display = "flex"
+        document.querySelector(".modal_gestion").style.display = "flex"
 
     })
+
+    //close modal container when i click on x or outside the container
     document.querySelector(".modal_container").addEventListener("click", (event) => {
         if (event.target.className == "modal_container")
             document.querySelector(".modal_container").style.display = "none"
@@ -21,13 +25,16 @@ if (cat !== null) {
         document.querySelector(".modal_container").style.display = "none"
     })
 
+    document.querySelector("#croix2").addEventListener("click", () => {
+        document.querySelector(".modal_container").style.display = "none"
+        document.querySelector(".modal_add_file").style.display = "none"
+    })
+
     //add new modal and addFigure
     document.querySelector("#addPhoto").addEventListener("click", (event) => {
         event.preventDefault()
-        document.querySelector(".galeriephoto").style.display = "none"
+        document.querySelector(".modal_gestion").style.display = "none"
         document.querySelector(".modal_add_file").style.display = "flex"
-        document.querySelector(".modal_photo").style.display = "none"
-        document.querySelector("#addPhoto").style.display = "none"
 
     })
 
@@ -36,8 +43,9 @@ if (cat !== null) {
         event.preventDefault()
         document.querySelector(".galeriephoto").style.display = "flex"
         document.querySelector(".modal_add_file").style.display = "none"
-        document.querySelector(".modal_photo").style.display = "flex"
+        document.querySelector(".modal_photo").style.display = "grid"
         document.querySelector("#addPhoto").style.display = "flex"
+        document.querySelector(".modal_gestion").style.display = "flex"
     })
 
 }
@@ -45,35 +53,39 @@ if (cat !== null) {
 
 
 // API categories via fetch
-fetch("http://localhost:5678/api/categories")
-    .then(res => res.json())
-    .then(data => {
+async function getCategories() {
+    const response = await fetch("http://localhost:5678/api/categories")
+        .then(res => res.json())
+        .then(data => {
 
 
-        let display = ``
-        for (li of data) {
-            display += `
+            let display = ``
+            for (li of data) {
+                display += `
             <li data-id="${li.id}" class="categoryBtn">${li.name}</li>
             `
 
-        }
-        document.querySelector(".category").insertAdjacentHTML("beforeend", display)
-        startFilterListener()
-    })
+            }
+            document.querySelector(".category").insertAdjacentHTML("beforeend", display)
+            startFilterListener()
+        })
 
-    .catch(err => { console.log(err) }
-    )
+        .catch(err => { console.log(err) }
+        )
+}
+getCategories()
 
 // API works via fetch
-fetch("http://localhost:5678/api/works")
-    .then(res => res.json())
-    .then(data => {
+async function getWorks() {
+    const response = await fetch("http://localhost:5678/api/works")
+        .then(res => res.json())
+        .then(data => {
 
-        let display = ``
+            let display = ``
 
-        for (let figure of data) {
+            for (let figure of data) {
 
-            display += `
+                display += `
 
             <figure data-categoryId="${figure.categoryId}">
                 <img src="${figure.imageUrl}" alt="${figure.title}"/>
@@ -82,45 +94,57 @@ fetch("http://localhost:5678/api/works")
 
           `
 
-        }
-        document.querySelector(".gallery").insertAdjacentHTML("beforeend", display)
-    })
-    .catch(err => {
-        console.log(err)
-    })
+            }
+            document.querySelector(".gallery").insertAdjacentHTML("beforeend", display)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+getWorks()
 
+//filter by categories buttons
 const startFilterListener = () => {
     const categoryFilter = document.querySelectorAll(".categoryBtn")
+    
+    for (catg of categoryFilter) {
 
-    for (elem of categoryFilter) {
-        elem.addEventListener("click", (event) => {
-            let productAll = document.querySelectorAll(".gallery > figure")
-
-            for (item of productAll) {
-                item.classList.remove("gallery_hidden")
-
-                document.querySelector(".tout").classList.add("category_selected")
-
-            }
-
+        catg.addEventListener("click", (event) => {
+            
             if (event.target.dataset.id !== "0") {
                 const productFilter = document.querySelectorAll(".gallery > figure:not([data-categoryId='" + event.target.dataset.id + "'])")
-                //console.log(event)
-                //console.log(event.target.dataset.id)
+                document.querySelectorAll(".gallery_hidden").forEach(fig => {
+                    fig.classList.remove("gallery_hidden")
+                })
+                
+                
 
-                for (item of productFilter) {
-                    item.classList.add("gallery_hidden")
+
+                for (filtered of productFilter) {
+                    filtered.classList.add("gallery_hidden")
+                    
                     document.querySelector(".tout").classList.remove("category_selected")
-                    elem.dataset.id.classList.add("category_selected")
+                    //filtered.dataset.id.classList.add("category_selected")
+                    
                 }
 
             } else {
-                categoryFilter.classList.remove("category_selected")
-            }
+                const productFilter = document.querySelectorAll(".gallery > figure")
+                console.log(productFilter)
+                productFilter.forEach(elem => {
+                    elem.classList.remove("gallery_hidden")
+                    document.querySelector(".tout").classList.add("category_selected")
 
+                })
+
+            }
         })
     }
 }
+
+
+
+
 // inject figure on modal for admin version
 async function displayGaleryModal() {
     try {
@@ -154,7 +178,6 @@ async function displayGaleryModal() {
         console.log(err)
     }
 }
-
 displayGaleryModal()
 
 //add trash can and delete method
@@ -177,14 +200,17 @@ const deleteGaleryModal = async () => {
                 .then((res => {
                     if (!res.ok) {
                         console.log("delete failed")
+                        event.preventDefault()
                     }
-                    event.preventDefault()
+                    
                 }))
 
-                .then((elem) => {
+                .then(elem => {
+                    event.preventDefault()
                     console.log("delete succeed", elem)
                     deleteGaleryModal()
                     displayGaleryModal()
+                    event.preventDefault()
 
                 })
 
@@ -200,10 +226,13 @@ let previewFile = document.querySelector("#apercu")
 let addPreviewFile = document.querySelector(".addFile input")
 let labelPreviewFile = document.querySelector(".addFile label")
 addPreviewFile.addEventListener("change", (event) => {
-    console.log(event)
-    console.log(previewFile)
     previewFile.style.display = "flex"
     previewFile.src = URL.createObjectURL(event.target.files[0])
+    document.querySelector(".fa-image").style.display = "none"
+    document.querySelector("#ajouter_photo").style.display = "none"
+    document.querySelector(".format-image").style.display = "none"
+    document.querySelector("#validate").classList.remove("form-empty")
+    document.querySelector("#validate").classList.add("validate-picture")
 })
 
 
@@ -257,19 +286,30 @@ const postImage = async () => {
                 document.querySelector("#category").value = ''
                 deleteGaleryModal()
                 displayGaleryModal()
-                
+
                 let display =
                     ` <figure data-categoryId="${data.categoryId}">
                         <img src="${data.imageUrl}" alt="${data.title}"/>
                         <figcaption>${data.title}</figcaption>
                     </figure> `
                 document.querySelector(".gallery").insertAdjacentHTML("beforeend", display)
+
             })
-            .catch(err =>{
+            .catch(err => {
                 console.log(err)
             })
     })
 
 }
 
+// init logout
+document.querySelector(".logout").addEventListener("click", (event) => {
 
+    console.log(cat)
+    if (cat !== null) {
+        window.localStorage.removeItem("token")
+        location.reload()
+
+    }
+}
+)
