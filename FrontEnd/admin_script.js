@@ -1,50 +1,46 @@
-document.querySelector('form').addEventListener("submit", (event) => {
+document.querySelector('form').addEventListener("submit", async (event) => {
     event.preventDefault()
 
     let emailInput = document.querySelector("#email").value
-    console.log(emailInput)
     let passwordInput = document.querySelector("#password").value
-    console.log(passwordInput)
+    let errorMessage = document.querySelector("#message-erreur")
 
-    // POST request using fetch() 
-    fetch("http://localhost:5678/api/users/login", {
+    try {
+        // POST request using fetch() 
+        const response = await fetch("http://localhost:5678/api/users/login", {
 
-        // Adding method type 
-        method: "POST",
+            // Adding method type 
+            method: "POST",
 
-        // Adding body or contents to send 
-        body: JSON.stringify({
-            email: emailInput,
-            password: passwordInput,
-        }),
+            // Adding body or contents to send 
+            body: JSON.stringify({
+                email: emailInput,
+                password: passwordInput,
+            }),
 
-        // Adding headers to the request 
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
+            // Adding headers to the request 
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+
+        if (!response.ok) {
+            throw new Error('Login ou mot de passe incorrect.')
+
         }
-    })
 
-        // Converting to JSON 
-        .then(response => response.json())
+        const data = await response.json()
+        console.log(data)
+
+        errorMessage.textContent = ""
 
         // Displaying results to console 
-        .then(json => {
 
-            console.log(json.email)
-            // checking informations users
-            // json.email.forEach(user
-            //     user.email == emailInput && user.password == passwordInput
-            // )
-            localStorage.setItem("token", json.token)
-            console.log(json)
-            console.log(json.token)
-            try {
-                
-            } catch (error) {
-                
-            }
-            window.location.href = "index.html"
-        })
-    // check 
+        localStorage.setItem("token", data.token)
+        window.location.href = "index.html"
 
-})       
+
+    } catch (error) {
+        errorMessage.textContent = error.message
+    }
+})

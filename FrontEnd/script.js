@@ -106,31 +106,28 @@ getWorks()
 //filter by categories buttons
 const startFilterListener = () => {
     const categoryFilter = document.querySelectorAll(".categoryBtn")
-    
+
     for (catg of categoryFilter) {
 
         catg.addEventListener("click", (event) => {
-            
+
             if (event.target.dataset.id !== "0") {
                 const productFilter = document.querySelectorAll(".gallery > figure:not([data-categoryId='" + event.target.dataset.id + "'])")
                 document.querySelectorAll(".gallery_hidden").forEach(fig => {
                     fig.classList.remove("gallery_hidden")
                 })
-                
-                
 
 
                 for (filtered of productFilter) {
                     filtered.classList.add("gallery_hidden")
-                    
+
                     document.querySelector(".tout").classList.remove("category_selected")
-                    //filtered.dataset.id.classList.add("category_selected")
-                    
+
                 }
 
             } else {
                 const productFilter = document.querySelectorAll(".gallery > figure")
-                console.log(productFilter)
+
                 productFilter.forEach(elem => {
                     elem.classList.remove("gallery_hidden")
                     document.querySelector(".tout").classList.add("category_selected")
@@ -138,6 +135,7 @@ const startFilterListener = () => {
                 })
 
             }
+            console.log(catg)
         })
     }
 }
@@ -202,37 +200,34 @@ const deleteGaleryModal = async () => {
                         console.log("delete failed")
                         event.preventDefault()
                     }
-                    
+
                 }))
 
                 .then(elem => {
                     event.preventDefault()
-                    console.log("delete succeed", elem)
                     deleteGaleryModal()
                     displayGaleryModal()
-                    event.preventDefault()
-
+                    getWorks()
                 })
 
-
-
         })
-
     }
 
 }
+
+
 // preview img on addFile and initialize 
 let previewFile = document.querySelector("#apercu")
 let addPreviewFile = document.querySelector(".addFile input")
 let labelPreviewFile = document.querySelector(".addFile label")
 addPreviewFile.addEventListener("change", (event) => {
+
     previewFile.style.display = "flex"
     previewFile.src = URL.createObjectURL(event.target.files[0])
     document.querySelector(".fa-image").style.display = "none"
     document.querySelector("#ajouter_photo").style.display = "none"
     document.querySelector(".format-image").style.display = "none"
-    document.querySelector("#validate").classList.remove("form-empty")
-    document.querySelector("#validate").classList.add("validate-picture")
+
 })
 
 
@@ -253,7 +248,7 @@ fetch("http://localhost:5678/api/categories")
         }
         document.querySelector("#category").insertAdjacentHTML("beforeend", display)
 
-        postImage()
+
 
     })
     .catch(err => { console.log(err) }
@@ -262,45 +257,80 @@ fetch("http://localhost:5678/api/categories")
 
 
 const postImage = async () => {
-    const addImage = document.querySelectorAll("#validate")
-    document.querySelector("#validation").addEventListener("submit", (event) => {
+    const addImage = document.querySelector("#validate")
+    document.querySelector("#validation").addEventListener("submit", async (event) => {
         event.preventDefault()
-        let data = new FormData()
-        data.append('image', document.querySelector("#file").files[0])
-        data.append('title', document.querySelector("#title").value)
-        data.append('category', document.querySelector("#category").value)
-        const addJson = {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer " + cat
-            },
-            body: data
-        }
-        fetch("http://localhost:5678/api/works/", addJson)
-            .then(blob => blob.json())
-            .then(data => {
-                console.log(data)
+        let errorMsg = document.querySelector("#message-erreur")
+
+        try {
+            let data = new FormData()
+            data.append('image', document.querySelector("#file").files[0])
+            data.append('title', document.querySelector("#title").value)
+            data.append('category', document.querySelector("#category").value)
+
+            
+
+            const addJson = {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer " + cat
+                },
+                body: data
+            }
+
+            
+            const response = await fetch("http://localhost:5678/api/works/", addJson)
+            if (!response.ok) {
+                throw new Error('Le formulaire est incomplet. Merci de le remplir avant de poster votre nouveau projet.')
+
+            }
+            const param = await response.json()
+            
+            if (response.ok) {
+                document.querySelector("#validate").classList.remove("form-empty")
+                document.querySelector("#validate").classList.add("validate-picture")
+                errorMsg.textContent = ""
+                
                 document.querySelector("#apercu").setAttribute("src", "")
                 document.querySelector("#apercu").style.display = "none"
                 document.querySelector("#title").value = ''
                 document.querySelector("#category").value = ''
-                deleteGaleryModal()
-                displayGaleryModal()
+
+
 
                 let display =
-                    ` <figure data-categoryId="${data.categoryId}">
-                        <img src="${data.imageUrl}" alt="${data.title}"/>
-                        <figcaption>${data.title}</figcaption>
-                    </figure> `
+                    ` <figure data-categoryId="${param.categoryId}">
+                        <img src="${param.imageUrl}" alt="${param.title}"/>
+                        <figcaption>${param.title}</figcaption>
+                    </figure> 
+                `
                 document.querySelector(".gallery").insertAdjacentHTML("beforeend", display)
 
-            })
-            .catch(err => {
-                console.log(err)
-            })
+                let newImage =
+                    `
+                <figure data-categoryId="${param.categoryId}" >
+                    <img src="${param.imageUrl}" alt="${param.title}"/>
+                    
+                    <i class="fa-regular fa-trash-can" id="${param.id}"></i>
+                    
+                </figure>
+
+                 `
+                document.querySelector(".modal_photo").insertAdjacentHTML("beforeend", newImage)
+
+            }
+
+        } catch (error) {
+            errorMsg.textContent = error.message
+        }
     })
+    document.querySelector(".fa-image").style.display = "flex"
+    document.querySelector("#ajouter_photo").style.display = "flex"
+    document.querySelector(".format-image").style.display = "flex"
 
 }
+postImage()
+
 
 // init logout
 document.querySelector(".logout").addEventListener("click", (event) => {

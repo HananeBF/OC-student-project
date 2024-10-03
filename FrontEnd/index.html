@@ -21,11 +21,11 @@
   <span id="edition-banner"><i class="fa-regular fa-pen-to-square icon-banner"></i> Mode
     édition</span>
   <header>
-    <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+    <a href="index.html"><h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a>
     <nav>
       <ul>
-        <li>projets</li>
-        <li>contact</li>
+        <li><a href="#projects">projets</a></li>
+        <li><a href="#contact">contact</a></li>
         <li id="logIn">
           <a href="login.html">login</a>
         </li>
@@ -58,8 +58,8 @@
       </article>
     </section>
     <section id="portfolio">
-      <h2>
-        Mes Projets
+      <h2><a id="projects">
+        Mes Projets</a>
         <span id="modify">
           <i class="fa-regular fa-pen-to-square icon-modify"></i>
           modifier</span>
@@ -72,7 +72,7 @@
       <div class="gallery"></div>
     </section>
     <section id="contact">
-      <h2>Contact</h2>
+      <h2> <a id="contact">Contact</a></h2>
       <p>Vous avez un projet ? Discutons-en !</p>
       <form action="#" method="post">
         <label for="name">Nom</label>
@@ -130,11 +130,12 @@
           </div>
           <div class="border-form"></div>
           <button type="submit" id="validate" class="form-empty">Valider</button>
+          <p id="message-erreur"></p>
         </form>
       </div>
     </div>
   </footer>
 </body>
-<script src="script.js" defer></script>
+<script src="script.js"></script>
 
 </html>
