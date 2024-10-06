@@ -30,11 +30,11 @@ document.querySelector('form').addEventListener("submit", async (event) => {
         }
 
         const data = await response.json()
-        console.log(data)
+        
 
         errorMessage.textContent = ""
 
-        // Displaying results to console 
+        
 
         localStorage.setItem("token", data.token)
         window.location.href = "index.html"

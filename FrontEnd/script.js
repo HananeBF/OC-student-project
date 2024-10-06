@@ -143,8 +143,8 @@ const startFilterListener = () => {
                 const productFilter = document.querySelectorAll(".gallery > figure:not([data-categoryId='" + event.target.dataset.id + "'])")
                 document.querySelectorAll(".gallery_hidden").forEach(fig => {
                     fig.classList.remove("gallery_hidden")
-                   // console.log(productFilter)
-                    
+
+
                 })
 
 
@@ -152,13 +152,9 @@ const startFilterListener = () => {
                     filtered.classList.add("gallery_hidden")
 
                     document.querySelector(".tout").classList.remove("category_selected")
-                    
-                    //console.log(event.target.dataset.id)
-
                     const categoriesUnselected = document.querySelectorAll("li:not([data-id='" + event.target.dataset.id + "'])")
-                    console.log(categoriesUnselected)
                     const categoriesSelected = document.querySelectorAll("[data-id='" + event.target.dataset.id + "']")
-                    console.log(categoriesSelected)
+
                     categoriesSelected.forEach(cat => {
                         cat.classList.add("category_selected")
                     })
@@ -166,7 +162,7 @@ const startFilterListener = () => {
                     categoriesUnselected.forEach(cat => {
                         cat.classList.remove("category_selected")
                     })
-                    
+
                 }
 
             } else {
@@ -216,7 +212,7 @@ async function displayGaleryModal() {
 
         }
         document.querySelector(".modal_photo").insertAdjacentHTML("beforeend", display)
-        
+
         deleteGaleryModal()
 
 
@@ -253,17 +249,14 @@ const deleteGaleryModal = async () => {
 
                 .then(elem => {
                     event.preventDefault()
-                    
+
                     displayGaleryModal()
-                    //document.querySelectorAll(".gallery > figure:not([data-categoryId='" + event.target.dataset.id + "'])")
-                    const toto = document.querySelectorAll("[data-imageid='" + idPhoto + "']")
-                    toto.forEach(tata => {
-                        tata.remove()
+
+                    const sup = document.querySelectorAll("[data-imageid='" + idPhoto + "']")
+                    sup.forEach(imgDelete => {
+                        imgDelete.remove()
                     })
-                    console.log(toto)
-                    //delete galerie complete 
-                    //document.querySelector(".gallery").insertAdjacentHTML("beforeend", display)
-                    console.log(elem)
+
 
                 })
 
@@ -395,7 +388,7 @@ postImage()
 // init logout
 document.querySelector(".logout").addEventListener("click", (event) => {
 
-    console.log(cat)
+
     if (cat !== null) {
         window.localStorage.removeItem("token")
         location.reload()
