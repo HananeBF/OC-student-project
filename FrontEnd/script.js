@@ -17,17 +17,45 @@ if (cat !== null) {
 
     //close modal container when i click on x or outside the container
     document.querySelector(".modal_container").addEventListener("click", (event) => {
-        if (event.target.className == "modal_container")
+        if (event.target.className == "modal_container") {
             document.querySelector(".modal_container").style.display = "none"
+            document.querySelector("#apercu").setAttribute("src", "")
+            document.querySelector("#apercu").style.display = "none"
+            document.querySelector("#title").value = ''
+            document.querySelector("#category").value = ''
+            document.querySelector(".fa-image").style.display = "flex"
+            document.querySelector("#ajouter_photo").style.display = "flex"
+            document.querySelector(".format-image").style.display = "flex"
+            document.querySelector("#validate").classList.remove("validate-picture")
+            document.querySelector("#validate").classList.add("form-empty")
+        }
     })
 
     document.querySelector("#croix").addEventListener("click", () => {
         document.querySelector(".modal_container").style.display = "none"
+        document.querySelector("#apercu").setAttribute("src", "")
+        document.querySelector("#apercu").style.display = "none"
+        document.querySelector("#title").value = ''
+        document.querySelector("#category").value = ''
+        document.querySelector(".fa-image").style.display = "flex"
+        document.querySelector("#ajouter_photo").style.display = "flex"
+        document.querySelector(".format-image").style.display = "flex"
+        document.querySelector("#validate").classList.remove("validate-picture")
+        document.querySelector("#validate").classList.add("form-empty")
     })
 
     document.querySelector("#croix2").addEventListener("click", () => {
         document.querySelector(".modal_container").style.display = "none"
         document.querySelector(".modal_add_file").style.display = "none"
+        document.querySelector("#apercu").setAttribute("src", "")
+        document.querySelector("#apercu").style.display = "none"
+        document.querySelector("#title").value = ''
+        document.querySelector("#category").value = ''
+        document.querySelector(".fa-image").style.display = "flex"
+        document.querySelector("#ajouter_photo").style.display = "flex"
+        document.querySelector(".format-image").style.display = "flex"
+        document.querySelector("#validate").classList.remove("validate-picture")
+        document.querySelector("#validate").classList.add("form-empty")
     })
 
     //add new modal and addFigure
@@ -55,7 +83,7 @@ if (cat !== null) {
 // API categories via fetch
 async function getCategories() {
     const response = await fetch("http://localhost:5678/api/categories")
-        .then(res => res.json())
+        .then(response => response.json())
         .then(data => {
 
 
@@ -87,7 +115,7 @@ async function getWorks() {
 
                 display += `
 
-            <figure data-categoryId="${figure.categoryId}">
+            <figure data-categoryId="${figure.categoryId}" data-imageId="${figure.id}">
                 <img src="${figure.imageUrl}" alt="${figure.title}"/>
                 <figcaption>${figure.title}</figcaption>
             </figure>
@@ -115,6 +143,8 @@ const startFilterListener = () => {
                 const productFilter = document.querySelectorAll(".gallery > figure:not([data-categoryId='" + event.target.dataset.id + "'])")
                 document.querySelectorAll(".gallery_hidden").forEach(fig => {
                     fig.classList.remove("gallery_hidden")
+                   // console.log(productFilter)
+                    
                 })
 
 
@@ -122,7 +152,21 @@ const startFilterListener = () => {
                     filtered.classList.add("gallery_hidden")
 
                     document.querySelector(".tout").classList.remove("category_selected")
+                    
+                    //console.log(event.target.dataset.id)
 
+                    const categoriesUnselected = document.querySelectorAll("li:not([data-id='" + event.target.dataset.id + "'])")
+                    console.log(categoriesUnselected)
+                    const categoriesSelected = document.querySelectorAll("[data-id='" + event.target.dataset.id + "']")
+                    console.log(categoriesSelected)
+                    categoriesSelected.forEach(cat => {
+                        cat.classList.add("category_selected")
+                    })
+
+                    categoriesUnselected.forEach(cat => {
+                        cat.classList.remove("category_selected")
+                    })
+                    
                 }
 
             } else {
@@ -131,11 +175,14 @@ const startFilterListener = () => {
                 productFilter.forEach(elem => {
                     elem.classList.remove("gallery_hidden")
                     document.querySelector(".tout").classList.add("category_selected")
-
+                    categoriesUnselected = document.querySelectorAll("li:not([data-id='0'])")
+                    categoriesUnselected.forEach(cat => {
+                        cat.classList.remove("category_selected")
+                    })
                 })
 
             }
-            console.log(catg)
+
         })
     }
 }
@@ -158,7 +205,7 @@ async function displayGaleryModal() {
 
             display += `
                 
-                <figure data-categoryId="${figure.categoryId}" >
+                <figure data-categoryId="${figure.categoryId}" data-imageId="${figure.id}" >
                     <img src="${figure.imageUrl}" alt="${figure.title}"/>
                     
                     <i class="fa-regular fa-trash-can" id="${figure.id}"></i>
@@ -169,6 +216,7 @@ async function displayGaleryModal() {
 
         }
         document.querySelector(".modal_photo").insertAdjacentHTML("beforeend", display)
+        
         deleteGaleryModal()
 
 
@@ -205,16 +253,25 @@ const deleteGaleryModal = async () => {
 
                 .then(elem => {
                     event.preventDefault()
-                    deleteGaleryModal()
+                    
                     displayGaleryModal()
-                    getWorks()
+                    //document.querySelectorAll(".gallery > figure:not([data-categoryId='" + event.target.dataset.id + "'])")
+                    const toto = document.querySelectorAll("[data-imageid='" + idPhoto + "']")
+                    toto.forEach(tata => {
+                        tata.remove()
+                    })
+                    console.log(toto)
+                    //delete galerie complete 
+                    //document.querySelector(".gallery").insertAdjacentHTML("beforeend", display)
+                    console.log(elem)
+
                 })
 
         })
     }
 
 }
-
+deleteGaleryModal()
 
 // preview img on addFile and initialize 
 let previewFile = document.querySelector("#apercu")
@@ -227,6 +284,8 @@ addPreviewFile.addEventListener("change", (event) => {
     document.querySelector(".fa-image").style.display = "none"
     document.querySelector("#ajouter_photo").style.display = "none"
     document.querySelector(".format-image").style.display = "none"
+    document.querySelector("#validate").classList.remove("form-empty")
+    document.querySelector("#validate").classList.add("validate-picture")
 
 })
 
@@ -268,7 +327,7 @@ const postImage = async () => {
             data.append('title', document.querySelector("#title").value)
             data.append('category', document.querySelector("#category").value)
 
-            
+
 
             const addJson = {
                 method: "POST",
@@ -278,28 +337,31 @@ const postImage = async () => {
                 body: data
             }
 
-            
+
             const response = await fetch("http://localhost:5678/api/works/", addJson)
             if (!response.ok) {
                 throw new Error('Le formulaire est incomplet. Merci de le remplir avant de poster votre nouveau projet.')
 
             }
             const param = await response.json()
-            
+
             if (response.ok) {
-                document.querySelector("#validate").classList.remove("form-empty")
-                document.querySelector("#validate").classList.add("validate-picture")
+
                 errorMsg.textContent = ""
-                
+
                 document.querySelector("#apercu").setAttribute("src", "")
                 document.querySelector("#apercu").style.display = "none"
                 document.querySelector("#title").value = ''
                 document.querySelector("#category").value = ''
-
+                document.querySelector(".fa-image").style.display = "flex"
+                document.querySelector("#ajouter_photo").style.display = "flex"
+                document.querySelector(".format-image").style.display = "flex"
+                document.querySelector("#validate").classList.remove("validate-picture")
+                document.querySelector("#validate").classList.add("form-empty")
 
 
                 let display =
-                    ` <figure data-categoryId="${param.categoryId}">
+                    ` <figure data-categoryId="${param.categoryId}" data-imageId="${param.id}">
                         <img src="${param.imageUrl}" alt="${param.title}"/>
                         <figcaption>${param.title}</figcaption>
                     </figure> 
@@ -308,15 +370,15 @@ const postImage = async () => {
 
                 let newImage =
                     `
-                <figure data-categoryId="${param.categoryId}" >
+                <figure data-categoryId="${param.categoryId}" data-imageId="${param.id}">
                     <img src="${param.imageUrl}" alt="${param.title}"/>
-                    
                     <i class="fa-regular fa-trash-can" id="${param.id}"></i>
-                    
                 </figure>
 
                  `
                 document.querySelector(".modal_photo").insertAdjacentHTML("beforeend", newImage)
+
+                deleteGaleryModal()
 
             }
 
@@ -324,10 +386,8 @@ const postImage = async () => {
             errorMsg.textContent = error.message
         }
     })
-    document.querySelector(".fa-image").style.display = "flex"
-    document.querySelector("#ajouter_photo").style.display = "flex"
-    document.querySelector(".format-image").style.display = "flex"
 
+    deleteGaleryModal()
 }
 postImage()
 

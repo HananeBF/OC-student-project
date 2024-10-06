@@ -25,7 +25,7 @@ document.querySelector('form').addEventListener("submit", async (event) => {
         })
 
         if (!response.ok) {
-            throw new Error('Login ou mot de passe incorrect.')
+            throw new Error(`Erreur dans l\'identifiant ou le mot de passe.`)
 
         }
 
