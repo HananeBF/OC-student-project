@@ -12,6 +12,15 @@ if (cat !== null) {
     document.querySelector("#modify").addEventListener("click", () => {
         document.querySelector(".modal_container").style.display = "flex"
         document.querySelector(".modal_gestion").style.display = "flex"
+        document.querySelector("#apercu").setAttribute("src", "")
+        document.querySelector("#apercu").style.display = "none"
+        document.querySelector("#title").value = ''
+        document.querySelector("#category").value = ''
+        document.querySelector(".fa-image").style.display = "flex"
+        document.querySelector("#ajouter_photo").style.display = "flex"
+        document.querySelector(".format-image").style.display = "flex"
+        document.querySelector("#validate").classList.remove("validate-picture")
+        document.querySelector("#validate").classList.add("form-empty")
 
     })
 
@@ -74,6 +83,15 @@ if (cat !== null) {
         document.querySelector(".modal_photo").style.display = "grid"
         document.querySelector("#addPhoto").style.display = "flex"
         document.querySelector(".modal_gestion").style.display = "flex"
+        document.querySelector("#apercu").setAttribute("src", "")
+        document.querySelector("#apercu").style.display = "none"
+        document.querySelector("#title").value = ''
+        document.querySelector("#category").value = ''
+        document.querySelector(".fa-image").style.display = "flex"
+        document.querySelector("#ajouter_photo").style.display = "flex"
+        document.querySelector(".format-image").style.display = "flex"
+        document.querySelector("#validate").classList.remove("validate-picture")
+        document.querySelector("#validate").classList.add("form-empty")
     })
 
 }
@@ -270,6 +288,7 @@ deleteGaleryModal()
 let previewFile = document.querySelector("#apercu")
 let addPreviewFile = document.querySelector(".addFile input")
 let labelPreviewFile = document.querySelector(".addFile label")
+
 addPreviewFile.addEventListener("change", (event) => {
 
     previewFile.style.display = "flex"
@@ -277,8 +296,7 @@ addPreviewFile.addEventListener("change", (event) => {
     document.querySelector(".fa-image").style.display = "none"
     document.querySelector("#ajouter_photo").style.display = "none"
     document.querySelector(".format-image").style.display = "none"
-    document.querySelector("#validate").classList.remove("form-empty")
-    document.querySelector("#validate").classList.add("validate-picture")
+
 
 })
 
@@ -306,8 +324,40 @@ fetch("http://localhost:5678/api/categories")
     .catch(err => { console.log(err) }
     )
 
+// // check form .validate-picture  => ok .form-empty
+const handleInputChange = (event) => {
+    const title = document.getElementById('title').value.trim();
+    const file = document.getElementById('file').files[0];
+    const category = document.getElementById('category').value;
+    let isValid=true
+    if (!title) {
+        isValid = false;
+    }
+    if (!file) {
+        isValid = false;
+    }
+    if (!category) {
+        isValid = false;
+    }
+    if (isValid) {
+        document.querySelector("#validate").classList.add("validate-picture")
+        document.querySelector("#validate").classList.remove("form-empty")  
+    }else{
+        document.querySelector("#validate").classList.remove("validate-picture")
+        document.querySelector("#validate").classList.add("form-empty")  
+    }
+        
+};
+
+// Ajouter des gestionnaires d'événements aux éléments de formulaire
+document.getElementById('title').addEventListener('input', handleInputChange);
+document.getElementById('file').addEventListener('input', handleInputChange);
+document.getElementById('category').addEventListener('change', handleInputChange);
 
 
+
+
+// add image from modale admin 
 const postImage = async () => {
     const addImage = document.querySelector("#validate")
     document.querySelector("#validation").addEventListener("submit", async (event) => {

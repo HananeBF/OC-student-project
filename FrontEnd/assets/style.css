@@ -226,6 +226,10 @@ li:hover {
 	cursor: pointer;
 }
 
+nav li .log {
+	font-weight: bold;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
